@@ -16,7 +16,6 @@ categories = ["/fresh-foods-and-bakery",
          "/quick-and-easy-meals" ]
 
 
-
 #Start of Beautiful Soup House Keeping
 def source_html(url):
     dr = webdriver.Chrome()
@@ -102,20 +101,7 @@ def scrape_all():
 
 scrape_all()
 
-#Testing Code is Below
 
-
-# csv_file = open('scrape_data.csv','w', newline='') 
-# csv_writer = csv.writer(csv_file)
-# csv_writer.writerow(['name', 'dollars','cents'])
-
-
-
-# csv_file.close()
-
-# reader = csv.DictReader(open('scrape_data.csv'))
-# for row in reader:
-#     print(row)
 
     
 
