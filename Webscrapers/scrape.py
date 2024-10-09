@@ -68,25 +68,39 @@ def update_new_world_urls():
 
 
 #Workhorse Function, currently writing rows to CVC file, need to refactor
-#Running this code as is will trigger cloudflare warnings at New World derver end
-def messy_function(url):
+#Running this code as is will trigger cloudflare warnings at New World server end
+def scrape_page(url, csv_writer):
     soup = cook_soup(url)
 
     for match in soup.find_all('div', class_="_1afq4wy0"):
 
-        title = match.find('p', class_='_1afq4wy7 w6tzb3l w6tzb31r').text.strip()
+        title = match.find('p', class_='_1afq4wy7 w6tzb3l w6tzb31y').text.strip()
         dollars = match.find('p', class_='whm0tf1 _1xxz4ve0 _1xxz4ve2').text.strip()
         cents = match.find('p', class_='whm0tf3 _1xxz4ve4 _1xxz4ve6').text.strip()
         price = int(dollars + cents) / 100
-        img = match.find('img', class_='_14gbuuw2')
-        img_src = img['src']
+        img_src = match.find('img', class_='_14gbuuw2')['src']
         link_a = match.find('a', class_="_1afq4wy2")
         link_to_product = link_a['href']
-        csv_writer.writerow([title, dollars, cents] )
+        csv_writer.writerow([title, dollars, cents, img_src, link_to_product] )
 
 
 
+def scrape_all():
+    url="https://www.newworld.co.nz/shop/category/fresh-foods-and-bakery?pg=0"
+    #need to write functiont to loop through urls in new_world_urls.csv
+    urls =[url]
 
+    csv_file = open('scrape_data_testing.csv','w', newline='') 
+    csv_writer = csv.writer(csv_file)
+    
+    csv_writer.writerow(['name', 'dollars','cents','img_src','product_link'])
+
+    for u in urls:
+        scrape_page(url, csv_writer)
+
+    csv_file.close()
+
+scrape_all()
 
 #Testing Code is Below
 
