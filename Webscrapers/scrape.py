@@ -81,6 +81,7 @@ def scrape_page(url, csv_writer):
         link_a = match.find('a', class_="_1afq4wy2")
         link_to_product = link_a['href']
         csv_writer.writerow([title, dollars, cents, img_src, link_to_product] )
+        print(title, "$", price)
 
 
 
@@ -96,6 +97,7 @@ def scrape_all():
 
     for u in urls:
         scrape_page(url, csv_writer)
+
 
     csv_file.close()
 
