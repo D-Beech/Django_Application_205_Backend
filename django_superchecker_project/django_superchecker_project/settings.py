@@ -28,7 +28,7 @@ DEBUG = True
 EXPOSE = 5000
 
 
-ALLOWED_HOSTS = ['http://django-superchecker-project-dev.ap-southeast-2.elasticbeanstalk.com', '127.0.0.1', 'http://django-superchecker-project-dev.ap-southeast-2.elasticbeanstalk.com/']
+ALLOWED_HOSTS = ['http://supercheckerbackend-dev.ap-southeast-2.elasticbeanstalk.com', '127.0.0.1', 'http://supercheckerbackend-dev.ap-southeast-2.elasticbeanstalk.com/']
 
 
 # Application definition
