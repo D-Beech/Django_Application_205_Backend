@@ -65,24 +65,23 @@ def update_woolworths_urls():
 #End of url update automation
 
 
+def countscrape():
+    soup = cook_soup("https://www.woolworths.co.nz/shop/browse/fruit-veg")
 
-soup = cook_soup(woolworths)
-
-for match in soup.find_all('div', class_='product-entry product-cup ng-star-inserted'):
-    try:
-        title = match.find('h3', 'ng-star-inserted').text.strip()
-        price_data = match.find('span').text.strip().split()
-        price, price_unit = price_data[0], price_data[2]
-        img_src = match.find('img')['src']
-        link = match.find('a', class_="productImage-container")['href']
-        print(title)
-    except:
-        print("could not extract")
-        continue
+    for match in soup.find_all('div', class_='product-entry product-cup ng-star-inserted'):
+        try:
+            title = match.find('h3', 'ng-star-inserted').text.strip()
+            price_data = match.find('span').text.strip().split()
+            price, price_unit = price_data[0], price_data[2]
+            img_src = match.find('img')['src']
+            link = match.find('a', class_="productImage-container")['href']
+            print(title)
+        except:
+            print("could not extract")
+            continue
 
 # ranges = page_number_ranges()
 # for x in range(len(ranges)):
 #     t = categories[x] + str(ranges[x])
 #     print(t)
 
-update_woolworths_urls()

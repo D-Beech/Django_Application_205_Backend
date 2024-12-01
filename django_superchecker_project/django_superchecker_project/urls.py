@@ -18,9 +18,21 @@ from django.urls import include, path
 from django_superchecker_project import views
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('trees', views.trees, name='tree'),
-    path('testing/', views.testing, name='testing')    
+    path("accounts/", include("django.contrib.auth.urls")),  # new
+
+    path('api1/', views.getData),
+    path('api2/', views.getData),
+    path('loginD', views.loginUser),
+    path('sign_in',views.sign_in),
+
+    path('scrape', views.scrape)
+
+    # path('trees', views.trees, name='tree'),
+    # path('testing/', views.testing, name='testing'),   
+
+
 ]
 

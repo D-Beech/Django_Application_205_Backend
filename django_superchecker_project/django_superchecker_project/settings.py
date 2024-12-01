@@ -25,12 +25,16 @@ SECRET_KEY = 'django-insecure-vrjd5tc5bp^frp10)7@#%m(_lk*5x=qe4phu6+bo=^vz9*ums^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+EXPOSE = 5000
+
+
 ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    #Default Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,10 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_superchecker_project',
 
-
-    #Our files
-    # 'scrape.py'
+    #Additional Django 
+    'rest_framework',
 ]
+
+LOGIN_REDIRECT_URL = "/"  # new
+
+# AUTH_USER_MODEL = "authuser.User"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,10 +88,10 @@ WSGI_APPLICATION = 'django_superchecker_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'superchecker-db',
+        'NAME': 'Super_Checker_DB',
         'USER': 'postgres',
         'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'HOST': 'supercheckerdb.cx4u2uqs8cs8.ap-southeast-2.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -130,3 +137,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

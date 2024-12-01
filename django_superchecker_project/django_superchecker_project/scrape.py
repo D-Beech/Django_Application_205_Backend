@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import csv
-from django_superchecker_project.models import Product
+import random
+from .models import Product, Countdown_Product
 
 new_world = "https://www.newworld.co.nz/shop/category"
 
@@ -86,54 +87,83 @@ def update_new_world_urls():
 
 
 
-# def scrape_all():
-#     url="https://www.newworld.co.nz/shop/category/fresh-foods-and-bakery?pg=0"
-#     #need to write functiont to loop through urls in new_world_urls.csv
-#     urls =[url]
+# # def scrape_all():
+# #     url="https://www.newworld.co.nz/shop/category/fresh-foods-and-bakery?pg=0"
+# #     #need to write functiont to loop through urls in new_world_urls.csv
+# #     urls =[url]
 
-#     csv_file = open('scrape_data_testing.csv','w', newline='') 
-#     csv_writer = csv.writer(csv_file)
+# #     csv_file = open('scrape_data_testing.csv','w', newline='') 
+# #     csv_writer = csv.writer(csv_file)
     
-#     csv_writer.writerow(['name', 'dollars','cents','img_src','product_link'])
+# #     csv_writer.writerow(['name', 'dollars','cents','img_src','product_link'])
 
-#     for u in urls:
-#         scrape_page(url, csv_writer)
+# #     for u in urls:
+# #         scrape_page(url, csv_writer)
 
 
-#     csv_file.close()
+# #     csv_file.close()
 
+
+# def scrape_page(url):
+#     soup = cook_soup(url)
+#     print("scrape page works")
+
+#     for match in soup.find_all('div', class_="_1afq4wy0"):
+#         try:
+#             print("try")
+#             title = match.find('p', class_='_1afq4wy7 w6tzb3l w6tzb31y').text.strip()
+#             print(title)
+#             dollars_d = int(match.find('p', class_='whm0tf1 _1xxz4ve0 _1xxz4ve2').text.strip()) + random.randint(-1, 2)
+#             # print(dollars)
+#             cents_c = int(match.find('p', class_='whm0tf3 _1xxz4ve4 _1xxz4ve6').text.strip()) + random.randint(-79, 57)
+#             # print(cents)
+#             # price = int(dollars + cents) / 100
+#             img_src = match.find('img', class_='_14gbuuw2')['src']
+#             print(img_src)
+#             link_a = match.find('a', class_="_1afq4wy2")
+#             link_to_product = link_a['href']
+#             print(link_to_product + "\n")
+
+#             product = Product(name=title, dollars=dollars_d, cents=cents_c, img=img_src, link=link_to_product)
+#             product.save()
+
+#             print("looped")
+
+#         except:
+#             print("Failed to add product")
+#             continue
 
 def scrape_page(url):
     soup = cook_soup(url)
 
-    for match in soup.find_all('div', class_="_1afq4wy0"):
+    print("scrapepage")
+    for match in soup.find_all('div', class_='product-entry product-cup ng-star-inserted'):
         try:
-            title = match.find('p', class_='_1afq4wy7 w6tzb3l w6tzb31y').text.strip()
+            title = match.find('h3', 'ng-star-inserted').text.strip()
+            price_data = match.find('span').text.strip().split()
+            print(title, price_data)
+            price_data = price_data[0].strip('$').split('.')
+            print(title, price_data[0], price_data[1])
+            
+            dollars, cents = int(price_data[0].strip()) + random.randint(-1,1), int(price_data[1].strip()) + random.randint(-17,99)
+            img_src = match.find('img')['src']
+            link = match.find('a', class_="productImage-container")['href']
             print(title)
-            dollars_d = match.find('p', class_='whm0tf1 _1xxz4ve0 _1xxz4ve2').text.strip()
-            # print(dollars)
-            cents_c = match.find('p', class_='whm0tf3 _1xxz4ve4 _1xxz4ve6').text.strip()
-            # print(cents)
-            # price = int(dollars + cents) / 100
-            img_src = match.find('img', class_='_14gbuuw2')['src']
-            print(img_src)
-            link_a = match.find('a', class_="_1afq4wy2")
-            link_to_product = link_a['href']
-            print(link_to_product + "\n")
 
-            product = Product(name=title, dollars=dollars_d, cents=cents_c, img=img_src, link=link_to_product)
+            product = Countdown_Product(name=title, dollars=dollars, cents=cents, img=img_src, link="https://www.newworld.co.nz/shop/category/fresh-foods-and-bakery?pg=0")
+            print("made product")
             product.save()
-
-            print("looped")
+            print("added to db")
 
         except:
             print("Failed to add product")
             continue
 
 def scrape_all():
-    url="https://www.newworld.co.nz/shop/category/fresh-foods-and-bakery?pg=0"
+    url="https://www.woolworths.co.nz/shop/browse/fruit-veg"
     #need to write functiont to loop through urls in new_world_urls.csv
     urls =[url]
+    print("this sunction works")
     scrape_page(url)
 
 
@@ -142,8 +172,8 @@ def scrape_all():
 
 
     
+# scrape_all()
 
-scrape_all()
 
 
 
